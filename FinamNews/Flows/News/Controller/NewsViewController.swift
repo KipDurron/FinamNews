@@ -9,96 +9,51 @@ import UIKit
 
 class NewsViewController: UITableViewController {
     
+    private let presenter: NewsViewToPresenter
+    
     let cellId = "NewsCell"
     
     let newsService = NewsService()
     let dateService = DateService()
+    let alertFactory = AlertFactory()
     var news = [News]()
 
+    init(presenter: NewsViewToPresenter) {
+        self.presenter = presenter
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .cyan
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: self.cellId)
         self.setupRefreshControl()
-        self.loadNews()
+        self.presenter.startLoadNews()
 
     }
     
     fileprivate func setupRefreshControl() {
-           
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Refreshing...")
         self.refreshControl?.tintColor = .gray
-        self.refreshControl?.addTarget(self, action: #selector(updateExistAndLoadNewNews), for: .valueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(startUpdateExist), for: .valueChanged)
        }
     
-    func loadNews() {
-        newsService.getNews(from: nil, to: dateService.getYesterday(), pageSize: nil) { [weak self] (response) in
-            guard let self = self else { return }
-            switch response.result {
-            case .success(let result):
-                self.news = result.articles ?? []
-                self.tableView.reloadData()
-            case .failure(let error):
-             print(error)
-            }
-         }
-    }
-    
-    func loadNewNews() {
-        let nowDate = Date()
-        let nowDateStr = dateService.getIsoStringFromDate(date: nowDate)//dateFormatter.string(from: nowDate)
-        let newestPublishDate = self.news.first?.publishedAt ?? nowDateStr
-        let dateFrom: String
-        if let date = dateService.getDateFromIsoString(string: newestPublishDate) {
-            let calendar = Calendar.current
-            let increaseDate = calendar.date(byAdding: .second, value: 1, to: date) ?? Date()
-            dateFrom = dateService.getIsoStringFromDate(date: increaseDate)
-        } else {
-            dateFrom = dateService.getIsoStringFromDate(date: nowDate)
-        }
+    @objc func startUpdateExist() {
         
-        newsService.getNews(from: dateFrom, to: nil, pageSize: nil) { [weak self] (response) in
-            guard let self = self else { return }
-            switch response.result {
-            case .success(let result):
-                self.refreshControl?.endRefreshing()
-                
-                guard let newNews = result.articles, newNews.count > 0 else { return }
-                
-                self.news = newNews + self.news
-                self.tableView.reloadData()
-                
-            case .failure(let error):
-             print(error)
-            }
-         }
-        
-    }
-    
-    @objc func updateExistAndLoadNewNews() {
         self.refreshControl?.beginRefreshing()
-        
         guard self.news.count > 0,
               let to = self.news.first?.publishedAt,
               let from = self.news.last?.publishedAt else {
-            loadNews()
+            self.presenter.startLoadNews()
             return
         }
         let pageSizeOldElem = String(self.news.count)
-        newsService.getNews(from: from, to: to, pageSize: pageSizeOldElem) { [weak self] (response) in
-            guard let self = self else { return }
-            switch response.result {
-            case .success(let result):
-                if let articles = result.articles {
-                    self.news = articles
-                    self.loadNewNews()
-                }
-                
-            case .failure(let error):
-             print(error)
-            }
-    }
+        self.presenter.startUpdateExist(updateFrom: from, updateTo: to, pageSize: pageSizeOldElem)
     }
     
 
@@ -124,43 +79,47 @@ class NewsViewController: UITableViewController {
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedNews = self.news[indexPath.row]
+        self.navigationController?.pushViewController(CurrentNewsController(news: selectedNews), animated: true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-
 
 }
 
+extension NewsViewController: NewsPresenterToView {
+    func loadNewNews(newNews: [News]) {
+        
+        self.refreshControl?.endRefreshing()
+        guard newNews.count > 0 else { return }
+        self.news = newNews + self.news
+        self.tableView.reloadData()
+    }
+    
+    
+    func updateExistAndStartLoadNewNews(news: [News]) {
+        self.news = news
+        guard let newestPublishDate = self.news.first?.publishedAt else {
+            return
+        }
+        self.presenter.startLoadNewNews(newestPublishDate: newestPublishDate)
+    }
+    
+    func showMessage(text: String, messageType: MessageTypeEnum) {
+        let message: UIAlertController
+        switch messageType {
+        case .message:
+            message = alertFactory.makeMessageAlert(text: text)
+        case .error:
+            message = alertFactory.makeErrorAlert(text: text)
+        }
+        self.present(message, animated: true, completion: nil)
+    }
+    
+    
+    func loadNews(news: [News]) {
+        self.news = news
+        self.tableView.reloadData()
+    }
+    
+    
+}

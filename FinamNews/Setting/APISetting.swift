@@ -15,4 +15,5 @@ enum APISetting: String {
     case pageSize = "&pageSize="
     case to = "&to="
     case from = "&from="
+    case codeError = "error"
 }

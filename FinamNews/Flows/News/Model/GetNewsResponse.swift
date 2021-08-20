@@ -11,4 +11,6 @@ struct GetNewsResponse: Codable {
     var status: String?
     var totalResults: Int?
     var articles: [News]?
+    var code: String?
+    var message: String?
 }
