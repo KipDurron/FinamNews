@@ -19,10 +19,10 @@ class CurrentNewsController: UIViewController {
         }
         currentNewsView?.contentView.title.text = currentNews.title
         currentNewsView?.contentView.newsDescription.text = currentNews.newsDescription
-//        if let urlNews = currentNews.url,
-//           currentNewsView?.contentView.newsDescription.text != nil{
-//            currentNewsView?.contentView.newsDescription.text! += "/n" + urlNews
-//        }
+        if let urlNews = currentNews.url,
+           currentNewsView?.contentView.newsDescription.text != nil{
+            currentNewsView?.contentView.newsDescription.text! += "\n" + urlNews
+        }
         
 
     }

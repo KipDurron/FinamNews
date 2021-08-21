@@ -20,8 +20,11 @@ class CurrentNewsView: UIView {
         return title
     }()
     
-    lazy var newsDescription: BaseLabelArea = {
-        let newsDescription = BaseLabelArea()
+    lazy var newsDescription: BaseTextView = {
+        let newsDescription = BaseTextView()
+        newsDescription.isEditable = false;
+        newsDescription.isScrollEnabled = false
+        newsDescription.dataDetectorTypes = UIDataDetectorTypes.all;
         newsDescription.layer.borderWidth = 1
         newsDescription.layer.borderColor = UIColor.black.cgColor
         return newsDescription
