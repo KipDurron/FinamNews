@@ -29,6 +29,9 @@
 		ECA3D8D426CFFF88005991C3 /* MarginSettingsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3D8D326CFFF88005991C3 /* MarginSettingsEnum.swift */; };
 		ECA3D8D626D00006005991C3 /* BaseLabelArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3D8D526D00006005991C3 /* BaseLabelArea.swift */; };
 		ECA3D8D826D00391005991C3 /* CurrentNewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3D8D726D00391005991C3 /* CurrentNewsController.swift */; };
+		ECA3D8DA26D0C953005991C3 /* ExUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3D8D926D0C953005991C3 /* ExUIImage.swift */; };
+		ECA3D8DD26D0CE76005991C3 /* BaseTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3D8DC26D0CE76005991C3 /* BaseTextView.swift */; };
+		ECA3D8DF26D0D4CA005991C3 /* BaseViewWithScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3D8DE26D0D4CA005991C3 /* BaseViewWithScroll.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +61,9 @@
 		ECA3D8D326CFFF88005991C3 /* MarginSettingsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarginSettingsEnum.swift; sourceTree = "<group>"; };
 		ECA3D8D526D00006005991C3 /* BaseLabelArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLabelArea.swift; sourceTree = "<group>"; };
 		ECA3D8D726D00391005991C3 /* CurrentNewsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentNewsController.swift; sourceTree = "<group>"; };
+		ECA3D8D926D0C953005991C3 /* ExUIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExUIImage.swift; sourceTree = "<group>"; };
+		ECA3D8DC26D0CE76005991C3 /* BaseTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextView.swift; sourceTree = "<group>"; };
+		ECA3D8DE26D0D4CA005991C3 /* BaseViewWithScroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewWithScroll.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,7 @@
 		ECA3D89526CEC771005991C3 /* FinamNews */ = {
 			isa = PBXGroup;
 			children = (
+				ECA3D8DB26D0C95C005991C3 /* Extention */,
 				ECA3D8C926CFE80C005991C3 /* Common */,
 				ECA3D8C426CFE47D005991C3 /* Factory */,
 				ECA3D8B826CED018005991C3 /* Setting */,
@@ -216,12 +223,22 @@
 		ECA3D8CA26CFE812005991C3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				ECA3D8DE26D0D4CA005991C3 /* BaseViewWithScroll.swift */,
 				ECA3D8D526D00006005991C3 /* BaseLabelArea.swift */,
 				ECA3D8D126CFFF56005991C3 /* BaseHorizontalStackView.swift */,
 				ECA3D8CB26CFE847005991C3 /* BaseLabel.swift */,
 				ECA3D8CC26CFE847005991C3 /* BaseUIImageView.swift */,
+				ECA3D8DC26D0CE76005991C3 /* BaseTextView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		ECA3D8DB26D0C95C005991C3 /* Extention */ = {
+			isa = PBXGroup;
+			children = (
+				ECA3D8D926D0C953005991C3 /* ExUIImage.swift */,
+			);
+			path = Extention;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,11 +358,13 @@
 				ECA3D8CD26CFE847005991C3 /* BaseLabel.swift in Sources */,
 				ECA3D8BA26CED032005991C3 /* APISetting.swift in Sources */,
 				ECA3D8B126CECA9E005991C3 /* NewsService.swift in Sources */,
+				ECA3D8DA26D0C953005991C3 /* ExUIImage.swift in Sources */,
 				ECA3D8BE26CFDF3D005991C3 /* DateService.swift in Sources */,
 				ECA3D8C826CFE7F8005991C3 /* MessageTypeEnum.swift in Sources */,
 				ECA3D89726CEC771005991C3 /* AppDelegate.swift in Sources */,
 				ECA3D8CE26CFE847005991C3 /* BaseUIImageView.swift in Sources */,
 				ECA3D89926CEC771005991C3 /* SceneDelegate.swift in Sources */,
+				ECA3D8DF26D0D4CA005991C3 /* BaseViewWithScroll.swift in Sources */,
 				ECA3D8B526CECC43005991C3 /* News.swift in Sources */,
 				ECA3D8C326CFE44F005991C3 /* NewsPresenter.swift in Sources */,
 				ECA3D8D426CFFF88005991C3 /* MarginSettingsEnum.swift in Sources */,
@@ -353,6 +372,7 @@
 				ECA3D8D826D00391005991C3 /* CurrentNewsController.swift in Sources */,
 				ECA3D8C126CFE3A1005991C3 /* NewsInteractionProtocol.swift in Sources */,
 				ECA3D8D026CFFD5F005991C3 /* CurrentNewsView.swift in Sources */,
+				ECA3D8DD26D0CE76005991C3 /* BaseTextView.swift in Sources */,
 				ECA3D8D226CFFF56005991C3 /* BaseHorizontalStackView.swift in Sources */,
 				ECA3D8D626D00006005991C3 /* BaseLabelArea.swift in Sources */,
 				ECA3D8B326CECADE005991C3 /* NewsViewController.swift in Sources */,

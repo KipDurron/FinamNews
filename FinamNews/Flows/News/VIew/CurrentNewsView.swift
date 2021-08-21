@@ -9,54 +9,54 @@ import UIKit
 
 class CurrentNewsView: UIView {
     
-    lazy var stackContent: BaseHorizontalStackView = {
-        let stackContent = BaseHorizontalStackView()
-        return stackContent
-    }()
-    
     lazy var image: BaseUIImageView = {
         let image = BaseUIImageView()
         return image
     }()
     
-    lazy var title: BaseLabel = {
-        let title = BaseLabel()
+    lazy var title: BaseLabelArea = {
+        let title = BaseLabelArea()
+        title.font = UIFont.boldSystemFont(ofSize: 16.0)
         return title
     }()
     
     lazy var newsDescription: BaseLabelArea = {
         let newsDescription = BaseLabelArea()
+        newsDescription.layer.borderWidth = 1
+        newsDescription.layer.borderColor = UIColor.black.cgColor
         return newsDescription
     }()
     
     init() {
         super.init(frame: .zero)
+        self.backgroundColor = .white
         addView()
     }
     
     func addView() {
-        self.addSubview(stackContent)
-        stackContent.addArrangedSubview(image)
-        stackContent.addArrangedSubview(title)
+        self.addSubview(image)
+        self.addSubview(title)
         self.addSubview(newsDescription)
         NSLayoutConstraint.activate([
-            image.heightAnchor.constraint(equalToConstant: 100),
-            
-            stackContent.topAnchor.constraint(equalTo: self.topAnchor,
+            image.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.7),
+            image.heightAnchor.constraint(equalTo: self.image.widthAnchor),
+            image.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
                                               constant: MarginSettingsEnum.baseTopAnchor.rawValue),
-            stackContent.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: MarginSettingsEnum.forSpaceWidthBorder.rawValue),
-            stackContent.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: -MarginSettingsEnum.forSpaceWidthBorder.rawValue),
-            stackContent.bottomAnchor.constraint(equalTo: self.newsDescription.topAnchor,
+            image.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: MarginSettingsEnum.forSpaceWidthBorder.rawValue),
+            image.bottomAnchor.constraint(equalTo: self.title.topAnchor,
                                                  constant: -MarginSettingsEnum.baseBottomAnchor.rawValue),
+            
 
-            newsDescription.bottomAnchor.constraint(equalTo: self.bottomAnchor,
+            title.leadingAnchor.constraint(equalTo: self.image.leadingAnchor),
+            title.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -MarginSettingsEnum.forSpaceWidthBorder.rawValue),
+            title.bottomAnchor.constraint(equalTo: self.newsDescription.topAnchor,
                                                     constant: -MarginSettingsEnum.baseBottomAnchor.rawValue),
 
-            newsDescription.leadingAnchor.constraint(equalTo: self.stackContent.leadingAnchor),
-            newsDescription.trailingAnchor.constraint(equalTo: self.stackContent.trailingAnchor),
+            newsDescription.leadingAnchor.constraint(equalTo: self.title.leadingAnchor),
+            newsDescription.trailingAnchor.constraint(equalTo: self.title.trailingAnchor),
+            newsDescription.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-//            photo.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.7),
-//            photo.heightAnchor.constraint(equalTo: self.photo.widthAnchor, multiplier: 1.2)
+            
 
 
         ])
