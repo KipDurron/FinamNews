@@ -27,6 +27,7 @@ class CurrentNewsView: UIView {
         newsDescription.dataDetectorTypes = UIDataDetectorTypes.all;
         newsDescription.layer.borderWidth = 1
         newsDescription.layer.borderColor = UIColor.black.cgColor
+        newsDescription.font = UIFont.systemFont(ofSize: 15.0)
         return newsDescription
     }()
     
