@@ -90,7 +90,6 @@ extension NewsViewController: NewsPresenterToView {
     func loadNewNews(newNews: [News]) {
         
         self.refreshControl?.endRefreshing()
-        guard newNews.count > 0 else { return }
         self.news = newNews + self.news
         self.tableView.reloadData()
     }
